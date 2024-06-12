@@ -8,16 +8,22 @@ Create and activate a virtual environment:
 
 ```
 python3 -m venv .venv
-source .venv/bin/activate
 ```
 
 Install dependencies:
 
 ```
+source .venv/bin/activate
 pip install pyjwt requests
 ```
 
 ## Use
+
+Activate the virtual environment:
+
+```
+source .venv/bin/activate
+```
 
 Run the following command to go through authentication via a predefined set of users:
 
