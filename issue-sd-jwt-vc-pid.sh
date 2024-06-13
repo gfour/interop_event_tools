@@ -5,6 +5,7 @@ export TOKEN_CLIENT_SECRET=secret
 export ISSUER_AUTHORIZATIONSERVER_INTROSPECTION=https://snf-74864.ok-kno.grnetcloud.net/oidc/introspect/
 export ISSUER_AUTHORIZATIONSERVER_USERINFO=https://snf-74864.ok-kno.grnetcloud.net/oidc/userinfo/
 export ISSUER_PID_SD_JWT_VC_DEFERRED=false
+export DEBUG=false
 
 JQ=${JQ:-"jq -C"}
 
@@ -22,15 +23,17 @@ else
     echo ACCESS_TOKEN: ${ACCESS_TOKEN}
 fi
 
-echo "== GET USERINFO (IDP) =="
-curl -k -s ${ISSUER_AUTHORIZATIONSERVER_USERINFO} \
-     -H "Content-type: application/json" -H "Accept: application/json" -H "Authorization: Bearer ${ACCESS_TOKEN}" | ${JQ}
-echo
+if [ "$DEBUG" == "true" ]; then
+    echo "== GET USERINFO (IDP) =="
+    curl -k -s ${ISSUER_AUTHORIZATIONSERVER_USERINFO} \
+	 -H "Content-type: application/json" -H "Accept: application/json" -H "Authorization: Bearer ${ACCESS_TOKEN}" | ${JQ}
+    echo
 
-echo "== INTROSPECT TOKEN (IDP) =="
-curl -k -s -XPOST ${ISSUER_AUTHORIZATIONSERVER_INTROSPECTION} -d "token=${ACCESS_TOKEN}" \
-     -H "Content-Type: application/x-www-form-urlencoded" -u "${TOKEN_CLIENT_ID}:${TOKEN_CLIENT_SECRET}" | ${JQ}
-echo
+    echo "== INTROSPECT TOKEN (IDP) =="
+    curl -k -s -XPOST ${ISSUER_AUTHORIZATIONSERVER_INTROSPECTION} -d "token=${ACCESS_TOKEN}" \
+	 -H "Content-Type: application/x-www-form-urlencoded" -u "${TOKEN_CLIENT_ID}:${TOKEN_CLIENT_SECRET}" | ${JQ}
+    echo
+fi
 
 ISSUER="http://snf-74864.ok-kno.grnetcloud.net:8080"
 
