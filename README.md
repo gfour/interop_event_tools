@@ -14,10 +14,18 @@ Install dependencies:
 
 ```
 source .venv/bin/activate
-pip install pyjwt requests
+pip install cryptography pyjwt requests
+```
+
+Install jq, for example on Ubuntu run the following command:
+
+```
+sudo apt install jq
 ```
 
 ## Use
+
+### Automatic authentication
 
 Activate the virtual environment:
 
@@ -32,3 +40,21 @@ python auto_auth.py --scope openid,eu.europa.ec.eudiw.pid_vc_sd_jwt,eu.europa.ec
 ```
 
 Note that the command above opens a browser window/tab and you may have to manually accept the self-signed TLS certificate on first use.
+
+The result will contain an access token that can be used with the credential issuer.
+
+### Demo credential issuance flow
+
+Use the access token to run the demo flow:
+
+* mdoc formats (PID and mDL):
+
+```
+./issue-mdoc-pid-and-mdl.sh "ACCESS_TOKEN"
+```
+
+* SD-JWT-VC format (PID only):
+
+```
+./issue-sd-jwt-vc-pid.sh "ACCESS_TOKEN"
+```
