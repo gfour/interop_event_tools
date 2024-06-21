@@ -36,20 +36,22 @@ if [ "$DEBUG" == "true" ]; then
 fi
 
 # ISSUER="http://snf-74864.ok-kno.grnetcloud.net:8080"
+# CREDENTIAL_ENDPOINT="${ISSUER}/wallet/credentialEndpoint"
 ISSUER="https://snf-74864.ok-kno.grnetcloud.net:9090"
+CREDENTIAL_ENDPOINT="${ISSUER}/wallet/credentialEndpoint"
 
 echo "== CREDENTIAL ISSUER METADATA =="
-hit ${ISSUER}/.well-known/openid-credential-issuer
+hit ${ISSUER}/.well-known/openid-credential-issuer/
 echo
 
 echo "== GET USERINFO FROM ISSUER =="
-curl -k -s ${ISSUER}/wallet/credentialEndpoint \
+curl -k -s ${CREDENTIAL_ENDPOINT} \
      -H "Content-type: application/json" -H "Accept: application/json" -H "Authorization: Bearer ${ACCESS_TOKEN}" | ${JQ}
 echo
 
 echo "== PID REQUEST (SD-JWT-VC) [test invocation, for c_nonce] =="
 PID_SD_JWT_VC=$(mktemp)
-curl -k -s -XPOST ${ISSUER}/wallet/credentialEndpoint \
+curl -k -s -XPOST ${CREDENTIAL_ENDPOINT} \
     -H "Content-type: application/json" -H "Accept: application/json" -H "Authorization: Bearer ${ACCESS_TOKEN}" \
     --data '{
   "format": "vc+sd-jwt",
@@ -67,7 +69,7 @@ echo
 echo "== PID REQUEST (SD-JWT-VC) [proper invocation] =="
 PROOF_JWT=$(./create_proof_jwt.py ${C_NONCE})
 PID_SD_JWT_VC=$(mktemp)
-curl -k -s -XPOST ${ISSUER}/wallet/credentialEndpoint \
+curl -k -s -XPOST ${CREDENTIAL_ENDPOINT} \
     -H "Content-type: application/json" -H "Accept: application/json" -H "Authorization: Bearer ${ACCESS_TOKEN}" \
     --data '{
   "format": "vc+sd-jwt",
