@@ -35,7 +35,8 @@ if [ "$DEBUG" == "true" ]; then
     echo
 fi
 
-ISSUER="http://snf-74864.ok-kno.grnetcloud.net:8080"
+# ISSUER="http://snf-74864.ok-kno.grnetcloud.net:8080"
+ISSUER="https://snf-74864.ok-kno.grnetcloud.net:9090"
 
 echo "== CREDENTIAL ISSUER METADATA =="
 hit ${ISSUER}/.well-known/openid-credential-issuer

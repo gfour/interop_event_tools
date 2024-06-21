@@ -48,7 +48,8 @@ payload = {
   "scope": "openid eu.europa.ec.eudiw.pid_vc_sd_jwt eu.europa.ec.eudiw.pid_mso_mdoc",
   "sid": "6085dc68-467a-4819-983d-e30c3e273133",
   "aud": [
-      "http://snf-74864.ok-kno.grnetcloud.net:8080",
+      # "http://snf-74864.ok-kno.grnetcloud.net:8080",
+      "https://snf-74864.ok-kno.grnetcloud.net:9090",
   ],
   "nonce": sys.argv[1],
 }
