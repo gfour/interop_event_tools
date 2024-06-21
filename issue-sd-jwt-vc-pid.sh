@@ -11,7 +11,7 @@ JQ=${JQ:-"jq -C"}
 
 function hit() {
     echo $1:
-    curl -s $1 | ${JQ}
+    curl -k -s $1 | ${JQ}
     echo
 }
 
@@ -42,13 +42,13 @@ hit ${ISSUER}/.well-known/openid-credential-issuer
 echo
 
 echo "== GET USERINFO FROM ISSUER =="
-curl -s ${ISSUER}/wallet/credentialEndpoint \
+curl -k -s ${ISSUER}/wallet/credentialEndpoint \
      -H "Content-type: application/json" -H "Accept: application/json" -H "Authorization: Bearer ${ACCESS_TOKEN}" | ${JQ}
 echo
 
 echo "== PID REQUEST (SD-JWT-VC) [test invocation, for c_nonce] =="
 PID_SD_JWT_VC=$(mktemp)
-curl -s -XPOST ${ISSUER}/wallet/credentialEndpoint \
+curl -k -s -XPOST ${ISSUER}/wallet/credentialEndpoint \
     -H "Content-type: application/json" -H "Accept: application/json" -H "Authorization: Bearer ${ACCESS_TOKEN}" \
     --data '{
   "format": "vc+sd-jwt",
@@ -66,7 +66,7 @@ echo
 echo "== PID REQUEST (SD-JWT-VC) [proper invocation] =="
 PROOF_JWT=$(./create_proof_jwt.py ${C_NONCE})
 PID_SD_JWT_VC=$(mktemp)
-curl -s -XPOST ${ISSUER}/wallet/credentialEndpoint \
+curl -k -s -XPOST ${ISSUER}/wallet/credentialEndpoint \
     -H "Content-type: application/json" -H "Accept: application/json" -H "Authorization: Bearer ${ACCESS_TOKEN}" \
     --data '{
   "format": "vc+sd-jwt",
@@ -93,7 +93,7 @@ echo
 
 if [ "${ISSUER_PID_SD_JWT_VC_DEFERRED}" == "true" ]; then
   echo "== DEFERRED REQUEST =="
-  curl -s -XPOST ${ISSUER}/wallet/deferredEndpoint \
+  curl -k -s -XPOST ${ISSUER}/wallet/deferredEndpoint \
       -H "Content-type: application/json" -H "Accept: application/json" -H "Authorization: Bearer ${ACCESS_TOKEN}" \
       --data '{"transaction_id" : "'${TRANSACTION_ID}'"}' --output ${PID_SD_JWT_VC}
   cat ${PID_SD_JWT_VC} | ${JQ}

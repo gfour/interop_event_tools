@@ -10,7 +10,7 @@ JQ=${JQ:-"jq -C"}
 
 function hit() {
     echo $1:
-    curl -s $1 | ${JQ}
+    curl -k -s $1 | ${JQ}
     echo
 }
 
@@ -41,14 +41,14 @@ hit ${ISSUER}/.well-known/openid-credential-issuer
 echo
 
 echo "== GET USERINFO FROM ISSUER =="
-curl -s ${ISSUER}/wallet/credentialEndpoint \
+curl -k -s ${ISSUER}/wallet/credentialEndpoint \
      -H "Content-type: application/json" -H "Accept: application/json" -H "Authorization: Bearer ${ACCESS_TOKEN}" | ${JQ}
 echo
 
 echo "== PID REQUEST (mso-mdoc) [test invocation, for c_nonce] =="
 MSD_MDOC_OUT=$(mktemp)
 
-curl -s -XPOST ${ISSUER}/wallet/credentialEndpoint \
+curl -k -s -XPOST ${ISSUER}/wallet/credentialEndpoint \
     -H "Content-type: application/json" -H "Accept: application/json" -H "Authorization: Bearer ${ACCESS_TOKEN}" \
     --data '{
   "format": "mso_mdoc",
@@ -67,7 +67,7 @@ echo "== PID REQUEST (mso-mdoc) =="
 PROOF_JWT=$(./create_proof_jwt.py ${C_NONCE})
 MSD_MDOC_OUT=$(mktemp)
 
-curl -s -XPOST ${ISSUER}/wallet/credentialEndpoint \
+curl -k -s -XPOST ${ISSUER}/wallet/credentialEndpoint \
     -H "Content-type: application/json" -H "Accept: application/json" -H "Authorization: Bearer ${ACCESS_TOKEN}" \
     --data '{
   "format": "mso_mdoc",
@@ -85,7 +85,7 @@ echo
 echo "== mDL REQUEST (mso_mdoc/mdl) =="
 PROOF_JWT=$(./create_proof_jwt.py ${C_NONCE})
 
-curl -s -XPOST ${ISSUER}/wallet/credentialEndpoint \
+curl -k -s -XPOST ${ISSUER}/wallet/credentialEndpoint \
     -H "Content-type: application/json" -H "Accept: application/json" -H "Authorization: Bearer ${ACCESS_TOKEN}" \
     --data '{
   "format": "mso_mdoc",
