@@ -49,9 +49,12 @@ rm -f eudi-mdl-cert.conf
 PUB_JWK="$1.jwk.pub.json"
 JWK="$1.jwk.json"
 step crypto jwk create ${PUB_JWK} ${JWK} --from-pem ${KEY} --insecure --no-password --force
+DER="${CRT}.der"
+openssl x509 -in ${CRT} -out ${DER} -outform DER
 
 echo "== Files created =="
 echo ${CRT}
+echo ${DER}
 echo ${KEY}
 echo ${PUB_JWK}
 echo ${JWK}
