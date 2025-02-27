@@ -42,7 +42,7 @@ openssl req -in ${CSR} -noout -text
 echo "== Generating the certificate =="
 rm -f root-ca-grnet.srl
 CRT="$1.crt"
-openssl x509 -req -in ${CSR} -CA root-ca-grnet.pem -CAkey grnet.key -CAcreateserial -out ${CRT} -days 500 -sha256 -extfile eudi-mdl-cert.conf -extensions v3_ca
+openssl x509 -req -in ${CSR} -CA root-ca-grnet.pem -CAkey grnet.key -CAcreateserial -out ${CRT} -days 400 -sha256 -extfile eudi-mdl-cert.conf -extensions v3_ca
 openssl x509 -in ${CRT} -noout -text
 rm -f eudi-mdl-cert.conf
 
