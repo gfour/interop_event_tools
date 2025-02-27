@@ -27,9 +27,9 @@ C = GR
 basicConstraints = CA:FALSE
 subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid,issuer:always
-extendedKeyUsage = 1.0.18013.5.1.2
+extendedKeyUsage = critical,1.0.18013.5.1.2
 crlDistributionPoints = URI:http://83.212.72.114:8082/crl.pem
-keyUsage = digitalSignature
+keyUsage = critical,digitalSignature
 " > eudi-mdl-cert.conf
 
 openssl req -new -sha256 -key ${KEY} \
