@@ -1,3 +1,4 @@
 # interop_event_tools
 
-This repo contains any tools needed for the POTENTIAL "interop events".
+This is a collection of tools/infrastructure needed (by GRNET) for
+EUDI Wallet "interop events".
