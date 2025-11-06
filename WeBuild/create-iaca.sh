@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-CERT_FILE="root-ca-grnet.pem"
+CERT_FILE_BASE="root-ca-grnet"
+CERT_FILE_PEM="${CERT_FILE_BASE}.pem"
 
 echo Creating root certificate...
 openssl ecparam -name prime256v1 -genkey -noout -out grnet.key
@@ -26,11 +27,16 @@ issuerAltName = URI:https://grnet.gr
 
 openssl req -new -key grnet.key -x509 -nodes -days 365 \
     -subj "/CN=PID Issuer CA - GR 01/O=GRNET/C=GR" \
-    -out ${CERT_FILE} \
+    -out ${CERT_FILE_PEM} \
     -config eudi-cert.conf \
     -extensions v3_ca
 
-# step-cli certificate inspect ${CERT_FILE}
-openssl x509 -in ${CERT_FILE} -noout -text
+# step-cli certificate inspect ${CERT_FILE_PEM}
+openssl x509 -in ${CERT_FILE_PEM} -noout -text
 
-echo "Root certificate created: ${CERT_FILE}"
+CERT_FILE_DER="${CERT_FILE_BASE}.der"
+openssl x509 -in ${CERT_FILE_PEM} -out ${CERT_FILE_DER} -outform DER
+
+echo "Root certificate created:"
+echo "${CERT_FILE_PEM}"
+echo "${CERT_FILE_DER}"
