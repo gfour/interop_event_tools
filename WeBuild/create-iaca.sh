@@ -20,7 +20,7 @@ basicConstraints = critical, CA:TRUE, pathlen:0
 subjectKeyIdentifier = hash
 authorityKeyIdentifier = keyid,issuer:always
 extendedKeyUsage = critical, 1.3.130.2.0.0.1.7
-crlDistributionPoints = URI:http://83.212.72.114:8082/crl.pem
+crlDistributionPoints = URI:http://3.69.83.252:5607/crl.pem
 keyUsage = critical, keyCertSign, cRLSign
 issuerAltName = URI:https://grnet.gr
 ' > eudi-cert.conf
