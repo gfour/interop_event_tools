@@ -25,7 +25,7 @@ keyUsage = critical, keyCertSign, cRLSign
 issuerAltName = URI:https://grnet.gr
 ' > eudi-cert.conf
 
-openssl req -new -key grnet.key -x509 -nodes -days 365 \
+openssl req -new -key grnet.key -x509 -nodes -days 800 \
     -subj "/CN=PID Issuer CA - GR 01/O=GRNET/C=GR" \
     -out ${CERT_FILE_PEM} \
     -config eudi-cert.conf \
